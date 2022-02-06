@@ -1,17 +1,3 @@
-// document.body.style.border = "5px solid red";
-
-
-// window.findAndReplaceDOMText(document.body, {
-//     find: /(^|\s|\(|,)([-+]?(\d*\.)?\d+)([\s\),]|$)/gm,
-//     replace: function(portion, match) {
-//         return 'XX';
-//     }
-// });
-
-
-// There's ambiguity about (100,200)
-// is that one number or two? So we probably don't support commas as separators on their own
-
 // const symbol = "ട"
 // const symbol = "ˢ"
 // const symbol = "₆"
@@ -175,7 +161,12 @@ function replaceInText(element) {
                 break;
             case Node.TEXT_NODE:
                 node.textContent = node.textContent.replace(
+
+                    // There's ambiguity about (100,200) is that one number or
+                    // two? So we probably don't support commas as separators on
+                    // their own
                     /(^|\s|\()([-+]?(\d*\.)?\d+)([\s\);]|,(\s|$)|$)/gm,
+
                     // Here's the question that helped: https://stackoverflow.com/questions/7192436/javascript-passing-a-function-with-matches-to-replace-regex-funcarg-doesn/7193481
                     // "$1$2$4" is the original
                     function (full_match, cap_before, cap_num, _, cap_after, _) {
@@ -199,40 +190,4 @@ function replaceInText(element) {
 }
 
 replaceInText(document.body);
-replaceInText(document.body);
-// document.body.innerHTML = document.body.innerHTML.replace(/AOEUGT/g, "<").replace(/AOEULT/g, ">");
-// document.body.innerHTML = document.body.innerHTML.replace(/AOEUMIDDLE/g, "");
-// document.body.innerHTML = document.body.innerHTML.replace(/AOEUEND/g, "</strong>");
-        // return 'AOEUSTART' +dec_string + "AOEUMIDDLE" + output + 'AOEUEND';
-
-// window.findAndReplaceDOMText(
-//     /(^|\s|\()([-+]?(\d*\.)?\d+)([\s\);]|,(\s|$)|$)/gm,
-//     document.body,
-//     function(text, index) {
-//         var integer = parseInt(text, 10);
-//         var float = parseFloat(text, 10);
-//         var is_integer = false;
-//         var output;
-//         if (Math.abs(integer - float) < .0001) {
-//             output = integer.toString(6);
-//             is_integer = true;
-//         } else {
-//             output = float.toString(6);
-//             if (output.length > text.length) {
-//                 output = output.substring(0, text.length);
-//             }
-//         }
-
-//         // Return the original preemptively:
-//         if (is_integer && Math.abs(integer) < 6) return text; // Small integer. Don't modify text at all
-
-
-//         // Output modified text plus the small indicator symbol
-//         return output + 'ഗ';
-//         // return '<abbr title="' +text + '">' + output + 'ഗ</abbr>';
-//         // ⒮
-//         // ട
-//         // ഗ
-//     },
-//     2 // Select the second matching group
-// );
+replaceInText(document.body); // The first run sometimes missed stuff.
