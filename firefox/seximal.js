@@ -164,12 +164,15 @@ function replaceInText(element) {
 
                     // There's ambiguity about (100,200) is that one number or
                     // two? So we probably don't support commas as separators on
-                    // their own
-                    /(^|\s|\()([-+]?(\d*\.)?\d+)([\s\);]|,(\s|$)|$)/gm,
+                    // their own.
+
+                    // This regex selects these sorts of numbers: 0  1  01 (12) 12.  .12  12, -12.12 +98.6.  .5. :30: 2; 2? 2! 4: :4: +3 +4 -5  5- /2  2/ 0
+                    // It does NOT select these sorts of numbers: 0,0 123,456 1.2.3 .2.1
+                    /(^|\s|\(|:|-|\+|\-|\/)(\d*\.\d+|\d+)([\s\);:!?\-\+\/]|,(\s|$)|\.(\s|$)|$)/gm,
 
                     // Here's the question that helped: https://stackoverflow.com/questions/7192436/javascript-passing-a-function-with-matches-to-replace-regex-funcarg-doesn/7193481
                     // "$1$2$4" is the original
-                    function (full_match, cap_before, cap_num, _, cap_after, _) {
+                    function (full_match, cap_before, cap_num, cap_after) {
                         changed = true;
                         return cap_before + process_decimal_to_seximal(cap_num) + cap_after;
                     }
