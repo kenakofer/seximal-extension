@@ -124,7 +124,7 @@ function get_seximal_words_for_seximal_numerals(seximal_string) {
         full_name = group_name + full_name; // We're adding the group names from right to left
     }
 
-    return full_name;
+    return full_name.charAt(0).toUpperCase() + full_name.slice(1);
 }
 
 function process_decimal_to_seximal(dec_string) {
